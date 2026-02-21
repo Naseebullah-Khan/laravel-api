@@ -5,17 +5,18 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
+use App\Http\Resources\V1\CustomerCollection;
+use App\Http\Resources\V1\CustomerResource;
 use App\Models\Customer;
-use Illuminate\Support\Collection;
 
 class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): Collection
+    public function index(): CustomerCollection
     {
-        return Customer::all();
+        return new CustomerCollection(resource: Customer::paginate());
     }
 
     /**
@@ -37,9 +38,9 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Customer $customer)
+    public function show(Customer $customer): CustomerResource
     {
-        //
+        return new CustomerResource(resource: $customer);
     }
 
     /**
